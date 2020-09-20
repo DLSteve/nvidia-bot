@@ -1,4 +1,3 @@
-import time
 import pprint
 
 import requests
@@ -17,7 +16,7 @@ PASSWORD = 'password123'
 CC_CODE = '999'
 
 # WARNING: If set to True the bot will actually make a purchase!!
-ACTIVE = True
+ACTIVE = False
 
 
 def get_current_external_ip():
@@ -28,7 +27,7 @@ def main():
     ip_address = get_current_external_ip()
 
     api_opt = {
-        # 'session_token': SESSION_TOKEN,  # Use a fixed session token for dev
+        # 'session_token': SESSION_TOKEN,  # Use a fixed session if you wish to pre login
         'ip_address': ip_address,
         'api_uri': API_URI,
         'api_key': API_KEY,
