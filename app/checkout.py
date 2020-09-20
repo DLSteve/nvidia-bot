@@ -48,7 +48,7 @@ def add_shipping_payment(driver, code):
     security_code.send_keys(code)
     util.button_click_using_xpath(driver, "//div[@id='dr_siteButtons']/input[@value='continue']")
     try:
-        util.wait_for_page(driver, 'NVIDIA Online Store - Address Validation Suggestion Page')
+        util.wait_for_page(driver, 'NVIDIA Online Store - Address Validation Suggestion Page', 8)
         print('Setting suggested shipping information.')
         util.wait_for_element(driver, 'billingAddressOptionRow1').click()
         util.button_click_using_xpath(driver, "//input[@id='selectionButton']")
