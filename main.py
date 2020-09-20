@@ -1,9 +1,15 @@
+import sys
 import pprint
+import logging
 
 import requests
 
 from app import checkout, api
 from selenium import webdriver
+
+FORMAT = '%(asctime)s %(message)s'
+logging.basicConfig(stream=sys.stdout, level=logging.INFO, format=FORMAT)
+
 
 API_URI = 'https://api.digitalriver.com/v1/shoppers/me'
 API_KEY = '9485fa7b159e42edb08a83bde0d83dia'
@@ -36,10 +42,10 @@ def main():
 
     dr = api.DRWebAPI(api_opt, retry=True)
 
-    print("Current External IP: " + ip_address)
-    print("Using session token: " + dr.get_session_token())
+    logging.info("Current External IP: " + ip_address)
+    logging.info("Using session token: " + dr.get_session_token())
 
-    print("Adding item id " + NV_PRODUCT + " to shopping cart.")
+    logging.info("Adding item id " + NV_PRODUCT + " to shopping cart.")
     dr.add_item_to_cart(NV_PRODUCT)
 
     # Use Web UI to fill out billing and shipping information
@@ -53,12 +59,12 @@ def main():
     chrome.quit()
 
     if ACTIVE:
-        print("Submitting order.")
+        logging.info("Submitting order.")
         order = dr.submit_cart()
-        print("Order placed...")
-        print(pprint.pprint(order))
+        logging.info("Order placed...")
+        logging.info(pprint.pprint(order))
 
-    print("yay!! You bought something!")
+    logging.info("yay!! You bought something!")
 
 
 if __name__ == '__main__':

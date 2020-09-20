@@ -1,5 +1,6 @@
 import json
 import time
+import logging
 
 import requests
 
@@ -99,11 +100,11 @@ class DRWebAPI:
             try:
                 return self._add_item_to_cart(nv_product_id)
             except ItemOutOfStockError:
-                print("Item not available yet, waiting to try again...")
+                logging.info("Item not available yet, waiting to try again...")
                 time.sleep(self.options['check_interval'])
                 continue
             except CannotAddItemError as e:
-                print(e)
+                logging.error(e)
                 if self.retry and (self.retry_attempts < self.max_retry or self.max_retry == -1):
                     print("Error occurred while adding product, retrying...")
                     self.retry_attempts = self.retry_attempts + 1
@@ -136,9 +137,9 @@ class DRWebAPI:
             try:
                 return self._submit_cart()
             except requests.HTTPError as e:
-                print(e)
+                logging.error(e)
                 if self.retry and (self.retry_attempts < self.max_retry or self.max_retry == -1):
-                    print("Error occurred while checking out, retrying...")
+                    logging.error("Error occurred while checking out, retrying...")
                     self.retry_attempts = self.retry_attempts + 1
                     time.sleep(self.retry_interval)
                     continue
